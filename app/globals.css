@@ -184,30 +184,68 @@ html::-webkit-scrollbar-track { background: var(--color-canvas); }
 
 /* ---------- mobile: table rows become cards ---------- */
 @media (max-width: 767px) {
-  main table.rt, main table.rt tbody { display: block; width: 100%; min-width: 0 !important; }
-  main table.rt thead { display: none; }
-  main table.rt tr {
+  html:not(.mobile-table) main table.rt, html:not(.mobile-table) main table.rt tbody { display: block; width: 100%; min-width: 0 !important; }
+  html:not(.mobile-table) main table.rt thead { display: none; }
+  html:not(.mobile-table) main table.rt tr {
     display: block; margin: 0 0 12px; padding: 6px 14px;
     border: 1px solid var(--color-line); border-radius: 12px; background: #fff;
     box-shadow: 0 1px 2px rgb(15 27 45 / 0.04);
   }
-  main table.rt td {
+  html:not(.mobile-table) main table.rt td {
     display: flex; align-items: center; justify-content: space-between; gap: 14px;
     padding: 9px 0 !important; text-align: right; min-width: 0; border: 0;
   }
-  main table.rt td + td { border-top: 1px solid #f3efe9; }
-  main table.rt td[data-label]::before {
+  html:not(.mobile-table) main table.rt td + td { border-top: 1px solid #f3efe9; }
+  html:not(.mobile-table) main table.rt td[data-label]::before {
     content: attr(data-label); flex-shrink: 0; color: #64748b; font-size: 12px; text-align: left;
   }
-  main table.rt td[colspan] { display: block; text-align: center; }
-  main table.rt td:first-child:not([data-label]) { justify-content: flex-start; border-top: 0; }
-  main table.rt td > div { min-width: 0; }
+  html:not(.mobile-table) main table.rt td[colspan] { display: block; text-align: center; }
+  html:not(.mobile-table) main table.rt td:first-child:not([data-label]) { justify-content: flex-start; border-top: 0; }
+  html:not(.mobile-table) main table.rt td > div { min-width: 0; }
   /* padding tables put on their scroll wrapper is no longer needed */
-  main .overflow-x-auto:has(> table.rt) { overflow-x: visible; padding: 0 12px; }
+  html:not(.mobile-table) main .overflow-x-auto:has(> table.rt) { overflow-x: visible; padding: 0 12px; }
 }
 
 @media (max-width: 767px) {
-  main table.rt td[data-primary] { display: block; text-align: left; font-size: 15px; padding-top: 4px !important; }
-  main table.rt td[data-primary]::before { display: none; }
-  main table.rt td[data-primary] > * { min-width: 0; }
+  html:not(.mobile-table) main table.rt td[data-primary] { display: block; text-align: left; font-size: 15px; padding-top: 4px !important; }
+  html:not(.mobile-table) main table.rt td[data-primary]::before { display: none; }
+  html:not(.mobile-table) main table.rt td[data-primary] > * { min-width: 0; }
+}
+
+/* slightly denser desktop UI: everything is rem-based, so this scales text and spacing together */
+@media (min-width: 768px) {
+  html { font-size: 95%; }
+}
+
+@media (max-width: 767px) {
+  html:not(.mobile-table) main table.rt td[data-skip] { display: none; }
+  html:not(.mobile-table) main table.rt tr { padding: 4px 14px; }
+  html:not(.mobile-table) main table.rt td { font-size: 13px; padding: 7px 0 !important; }
+  html:not(.mobile-table) main table.rt td[data-primary] { font-size: 15px; font-weight: 600; padding: 10px 0 8px !important; }
+  html:not(.mobile-table) main table.rt td[data-primary] p { white-space: normal; }
+  html:not(.mobile-table) main table.rt td[data-label]::before { font-size: 11.5px; }
+  html:not(.mobile-table) main table.rt td { white-space: normal !important; }
+}
+
+/* mobile "Table view": real table, every cell on one line, swipe sideways for the rest */
+@media (max-width: 767px) {
+  html.mobile-table main table.rt { width: max-content; min-width: 100%; }
+  html.mobile-table main table.rt th,
+  html.mobile-table main table.rt td { white-space: nowrap; }
+  html.mobile-table main table.rt td a,
+  html.mobile-table main table.rt td p { white-space: nowrap; }
+}
+
+/* card mode refinements: checkbox in the corner, multi-line cells (phone + email) stacked */
+@media (max-width: 767px) {
+  html:not(.mobile-table) main table.rt tr { position: relative; }
+  html:not(.mobile-table) main table.rt td[data-select] {
+    position: absolute; top: 10px; right: 12px; display: block; padding: 0 !important; border: 0; z-index: 1;
+  }
+  html:not(.mobile-table) main table.rt td[data-select] + td { padding-right: 34px !important; }
+  html:not(.mobile-table) main table.rt td:has(> p + p) {
+    display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-items: center;
+  }
+  html:not(.mobile-table) main table.rt td:has(> p + p)::before { grid-row: 1 / span 3; grid-column: 1; }
+  html:not(.mobile-table) main table.rt td:has(> p + p) > p { grid-column: 2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 }

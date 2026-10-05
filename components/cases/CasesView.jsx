@@ -100,8 +100,8 @@ export default function CasesView() {
     <div className="mx-auto flex max-w-350 flex-col gap-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-4">
-          <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-brand text-white"><Folder size={26} /></div>
-          <div>
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl sm:h-13 sm:w-13 bg-brand text-white"><Folder size={26} /></div>
+          <div className="min-w-0">
             <h1 className="text-3xl font-bold leading-tight">My Cases</h1>
             <p className="text-slate-600">All cases assigned to you. View, manage and track your cases.</p>
           </div>
@@ -152,13 +152,13 @@ export default function CasesView() {
           <FilterSelect label="Case Type" value={type} onChange={reset(setType)} options={caseTypes} />
           <FilterSelect label="Status" value={status} onChange={reset(setStatus)} options={["Active", "Pending", "Closed"]} />
           <FilterSelect label="Court" value={court} onChange={reset(setCourt)} options={courts} />
-          <div>
+          <div className="w-full sm:w-auto">
             <span className="mb-1 block text-xs font-medium text-slate-600">Next Hearing</span>
-            <div className="flex h-10 items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm text-slate-600">
+            <div className="flex h-10 w-full items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm text-slate-600 sm:w-auto">
               <Calendar size={15} />
-              <input type="date" value={from} onChange={(e) => reset(setFrom)(e.target.value)} aria-label="From date" className="w-31 bg-transparent outline-none" />
+              <input type="date" value={from} onChange={(e) => reset(setFrom)(e.target.value)} aria-label="From date" className="min-w-0 flex-1 bg-transparent outline-none sm:w-31 sm:flex-none" />
               <span>-</span>
-              <input type="date" value={to} onChange={(e) => reset(setTo)(e.target.value)} aria-label="To date" className="w-31 bg-transparent outline-none" />
+              <input type="date" value={to} onChange={(e) => reset(setTo)(e.target.value)} aria-label="To date" className="min-w-0 flex-1 bg-transparent outline-none sm:w-31 sm:flex-none" />
             </div>
           </div>
           <button type="button" onClick={clearFilters} className="h-10 rounded-lg border border-slate-200 px-5 text-sm font-medium hover:bg-slate-50">Clear Filters</button>

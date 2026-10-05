@@ -23,7 +23,7 @@ const SECTIONS = [
 ];
 
 const Section = ({ id, icon: Icon, title, children }) => (
-  <section id={id} className="scroll-mt-24 rounded-xl border border-line bg-white p-6 shadow-sm">
+  <section id={id} className="scroll-mt-32 rounded-xl border border-line bg-white p-4 shadow-sm sm:p-6 xl:scroll-mt-24">
     <h2 className="mb-4 flex items-center gap-3 text-lg font-bold"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-50 text-brand"><Icon size={18} /></span>{title}</h2>
     {children}
   </section>
@@ -85,7 +85,7 @@ export default function ReportPage({ slug }) {
             <p className="mt-1 text-sm text-slate-600">{c.caseNo} &bull; {c.court} &bull; generated {formatDate(isoOf(new Date()))}</p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex w-full flex-wrap gap-2 sm:w-auto">
           <Link href="/ai-analysis" className={outline}><ArrowLeft size={16} /> Back to analysis</Link>
           <button onClick={() => window.print()} className={outline}><Printer size={16} /> Print</button>
           <button onClick={download} className="flex items-center gap-2 rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"><Download size={16} /> Download PDF</button>
@@ -100,6 +100,11 @@ export default function ReportPage({ slug }) {
         </nav>
 
         <div className="stagger flex min-w-0 flex-col gap-5">
+          <div className="sticky top-17 z-10 -mx-4 flex gap-2 overflow-x-auto bg-canvas/95 px-4 py-2 backdrop-blur sm:-mx-6 sm:px-6 xl:hidden">
+            {SECTIONS.map(([id, label]) => (
+              <button key={id} onClick={() => go(id)} className={`shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-medium ${active === id ? "border-brand bg-peach text-sidebar" : "border-line bg-white text-slate-600"}`}>{label}</button>
+            ))}
+          </div>
           <Section id="summary" icon={FileText} title="Summary">
             <p className="rounded-xl bg-sky-50/60 p-5 text-base leading-relaxed text-slate-700">{a.summary.text}</p>
             <dl className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3">

@@ -87,8 +87,8 @@ export default function ReportsView() {
     <div className="mx-auto flex max-w-350 flex-col gap-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-4">
-          <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-emerald-600 text-white"><BarChart3 size={26} /></div>
-          <div>
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl sm:h-13 sm:w-13 bg-emerald-600 text-white"><BarChart3 size={26} /></div>
+          <div className="min-w-0">
             <h1 className="text-3xl font-bold leading-tight">Reports</h1>
             <p className="text-slate-600">Practice performance at a glance, with downloadable reports.</p>
           </div>

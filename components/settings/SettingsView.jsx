@@ -25,7 +25,7 @@ const TABS = [
 const input = "h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none focus:border-brand";
 
 const Card = ({ id, icon: Icon, tint, title, note, children }) => (
-  <section id={id} className="scroll-mt-24 rounded-xl border border-line bg-white p-5 shadow-sm">
+  <section id={id} className="scroll-mt-24 rounded-xl border border-line bg-white p-4 shadow-sm sm:p-5">
     <div className="mb-4 flex items-center gap-3">
       <span className={`flex h-10 w-10 items-center justify-center rounded-lg ${tint}`}><Icon size={20} /></span>
       <div><h2 className="font-bold">{title}</h2><p className="text-xs text-slate-500">{note}</p></div>
@@ -191,8 +191,8 @@ export default function SettingsView() {
   return (
     <div className="mx-auto flex max-w-350 flex-col gap-5">
       <div className="flex items-start gap-4">
-        <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-purple-600 text-white"><Settings size={26} /></div>
-        <div>
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl sm:h-13 sm:w-13 bg-purple-600 text-white"><Settings size={26} /></div>
+        <div className="min-w-0">
           <h1 className="text-3xl font-bold leading-tight">Settings</h1>
           <p className="text-slate-600">Manage your preferences, organization settings and system configuration.</p>
         </div>
@@ -200,7 +200,7 @@ export default function SettingsView() {
 
       <div className="flex overflow-x-auto rounded-xl border border-line bg-white p-1.5 shadow-sm">
         {TABS.map(([id, label, Icon]) => (
-          <button key={id} onClick={() => go(id)} className={`flex shrink-0 items-center gap-2.5 rounded-lg px-5 py-2.5 text-sm font-medium ${tab === id ? "bg-peach" : "text-slate-600 hover:bg-slate-50"}`}>
+          <button key={id} onClick={() => go(id)} className={`flex shrink-0 items-center gap-2 rounded-lg px-3.5 py-2.5 text-sm font-medium sm:gap-2.5 sm:px-5 ${tab === id ? "bg-peach" : "text-slate-600 hover:bg-slate-50"}`}>
             <Icon size={17} /> {label}
           </button>
         ))}
@@ -211,7 +211,7 @@ export default function SettingsView() {
           <Card id="general" icon={Settings} tint="bg-purple-50 text-purple-600" title="General Settings" note="Basic application preferences and defaults.">
             <div className="space-y-4">
               <Field label="Application Name"><input className={input} value={g.appName} onChange={(e) => set("general", { appName: e.target.value })} /></Field>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Default Time Zone"><Select value={g.timezone} onChange={(v) => set("general", { timezone: v })} options={["(GMT+05:30) Asia/Kolkata", "(GMT+00:00) UTC", "(GMT+04:00) Asia/Dubai"]} /></Field>
                 <Field label="Date Format"><Select value={g.dateFormat} onChange={(v) => set("general", { dateFormat: v })} options={["DD MMM YYYY (05 Oct 2026)", "MM/DD/YYYY (10/05/2026)", "YYYY-MM-DD (2026-10-05)"]} /></Field>
                 <Field label="Time Format"><Select value={g.timeFormat} onChange={(v) => set("general", { timeFormat: v })} options={["12 Hour (10:30 AM)", "24 Hour (10:30)"]} /></Field>
@@ -238,7 +238,7 @@ export default function SettingsView() {
               <div className="flex items-center gap-3 py-2.5">
                 <Clock size={19} className="shrink-0 text-slate-700" />
                 <div className="flex-1 leading-snug"><p className="text-sm font-medium">Session Timeout</p><p className="text-xs text-slate-500">Auto logout after inactivity</p></div>
-                <div className="w-36"><Select value={sec.timeout} onChange={(v) => setNow("security", { timeout: v })} options={["15 Minutes", "30 Minutes", "1 Hour", "4 Hours"]} /></div>
+                <div className="w-32 sm:w-36"><Select value={sec.timeout} onChange={(v) => setNow("security", { timeout: v })} options={["15 Minutes", "30 Minutes", "1 Hour", "4 Hours"]} /></div>
               </div>
               <ToggleRow icon={ShieldCheck} title="Login Notifications" note="Get notified on new login attempts" on={sec.loginAlerts} onChange={(v) => setNow("security", { loginAlerts: v })} />
             </div>
@@ -252,7 +252,7 @@ export default function SettingsView() {
                 <Field label="Organization Name"><input className={input} value={o.name} onChange={(e) => set("org", { name: e.target.value })} /></Field>
                 <div>
                   <span className="mb-1 block text-xs font-medium text-slate-600">Logo</span>
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-3">
                     <span className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-lg bg-sidebar text-amber-300">
                       {store.logo ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -266,7 +266,7 @@ export default function SettingsView() {
                 </div>
               </div>
               <Field label="Address"><textarea rows={3} className={`${input} h-auto resize-y py-2`} value={o.address} onChange={(e) => set("org", { address: e.target.value })} /></Field>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field label="Phone Number"><input className={input} value={o.phone} onChange={(e) => set("org", { phone: e.target.value })} /></Field>
                 <Field label="Email Address"><input type="email" className={input} value={o.email} onChange={(e) => set("org", { email: e.target.value })} /></Field>
               </div>
@@ -276,7 +276,7 @@ export default function SettingsView() {
           </Card>
 
           <Card id="case" icon={FolderOpen} tint="bg-purple-50 text-purple-600" title="Case Management Settings" note="Configure default settings for case management.">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Default Case Number Format"><Select value={c.numberFormat} onChange={(v) => set("caseMgmt", { numberFormat: v })} options={["YYYY/#### (2026/0001)", "CR/YYYY/### (CR/2026/001)"]} /></Field>
               <Field label="Default Case Status"><Select value={c.status} onChange={(v) => set("caseMgmt", { status: v })} options={["Active", "Pending", "Draft"]} /></Field>
               <Field label="Default Court"><Select value={c.court} onChange={(v) => set("caseMgmt", { court: v })} options={["District Court", "High Court", "Sessions Court", "Supreme Court"]} /></Field>
@@ -291,15 +291,15 @@ export default function SettingsView() {
 
           <Card id="appearance" icon={Palette} tint="bg-purple-50 text-purple-600" title="Appearance Settings" note="Customize the look and feel of the application.">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="w-24 text-sm text-slate-600">Theme</span>
+              <span className="w-full text-sm text-slate-600 sm:w-24">Theme</span>
               {[["Light", Sun], ["Dark", Moon], ["System", Monitor]].map(([t, Icon]) => (
-                <button key={t} onClick={() => setNow("appearance", { theme: t })} className={`flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-medium ${a.theme === t ? "border-brand bg-orange-50" : "border-line hover:bg-slate-50"}`}>
+                <button key={t} onClick={() => setNow("appearance", { theme: t })} className={`flex flex-1 items-center justify-center gap-2 rounded-lg border px-3 py-2.5 text-sm font-medium sm:flex-none sm:px-5 ${a.theme === t ? "border-brand bg-orange-50" : "border-line hover:bg-slate-50"}`}>
                   <Icon size={16} /> {t}
                 </button>
               ))}
             </div>
-            <div className="mt-4 flex items-center gap-3">
-              <span className="w-24 text-sm text-slate-600">Primary Color</span>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <span className="w-full text-sm text-slate-600 sm:w-24">Primary Color</span>
               {colors.map((col) => (
                 <button key={col.id} onClick={() => pickColor(col.id)} aria-label={col.name} title={col.name} className={`flex h-9 w-9 items-center justify-center rounded-full ring-offset-2 ${a.color === col.id ? "ring-2 ring-slate-400" : ""}`} style={{ background: col.id }}>
                   {a.color === col.id && <Check size={16} className="text-white" />}

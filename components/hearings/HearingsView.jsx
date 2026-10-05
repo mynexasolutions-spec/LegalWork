@@ -115,8 +115,8 @@ export default function HearingsView() {
     <div className="mx-auto flex max-w-350 flex-col gap-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-4">
-          <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-red-600 text-white"><CalendarClock size={26} /></div>
-          <div>
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl sm:h-13 sm:w-13 bg-red-600 text-white"><CalendarClock size={26} /></div>
+          <div className="min-w-0">
             <h1 className="text-3xl font-bold leading-tight">Upcoming Hearings</h1>
             <p className="text-slate-600">All scheduled hearings for your cases.</p>
           </div>
@@ -132,13 +132,13 @@ export default function HearingsView() {
 
       <div className="stagger grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-4">
         <StatCard label="Total Upcoming Hearings" value={counts["All Hearings"]} iconBg="bg-red-100 text-red-600" icon={<CalendarClock size={30} strokeWidth={1.5} />} onClick={() => { setTab("All Hearings"); setMode("list"); }} />
-        <div className="lift flex items-center gap-4 rounded-xl border border-line bg-white p-5 shadow-sm">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600"><Flame size={30} strokeWidth={1.5} /></div>
+        <div className="lift flex h-full items-center gap-3 rounded-xl border border-line bg-white p-3 shadow-sm sm:gap-4 sm:p-5">
+          <div className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600 min-[420px]:flex sm:h-16 sm:w-16"><Flame size={26} strokeWidth={1.5} /></div>
           <div className="min-w-0">
-            <p className="text-sm text-slate-600">Next Hearing</p>
+            <p className="text-xs text-slate-600 sm:text-sm">Next Hearing</p>
             {next ? (
               <>
-                <p className="text-xl font-bold leading-tight">{formatDate(next.date)}</p>
+                <p className="text-base font-bold leading-tight sm:text-xl">{formatDate(next.date)}</p>
                 <Link href={`/cases/${next.c?.id}`} className="block truncate text-sm text-slate-500 hover:text-brand">{next.title}</Link>
               </>
             ) : <p className="text-sm text-slate-500">Nothing scheduled</p>}
@@ -186,13 +186,13 @@ export default function HearingsView() {
               </div>
               <FilterSelect label="Case Type" value={type} onChange={reset(setType)} options={caseTypes} />
               <FilterSelect label="Court" value={court} onChange={reset(setCourt)} options={courts} />
-              <div>
+              <div className="w-full sm:w-auto">
                 <span className="mb-1 block text-xs font-medium text-slate-600">Date Range</span>
-                <div className="flex h-10 items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm text-slate-600">
+                <div className="flex h-10 w-full items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm text-slate-600 sm:w-auto">
                   <Calendar size={15} />
-                  <input type="date" value={from} onChange={(e) => reset(setFrom)(e.target.value)} aria-label="From date" className="w-31 bg-transparent outline-none" />
+                  <input type="date" value={from} onChange={(e) => reset(setFrom)(e.target.value)} aria-label="From date" className="min-w-0 flex-1 bg-transparent outline-none sm:w-31 sm:flex-none" />
                   <span>-</span>
-                  <input type="date" value={to} onChange={(e) => reset(setTo)(e.target.value)} aria-label="To date" className="w-31 bg-transparent outline-none" />
+                  <input type="date" value={to} onChange={(e) => reset(setTo)(e.target.value)} aria-label="To date" className="min-w-0 flex-1 bg-transparent outline-none sm:w-31 sm:flex-none" />
                 </div>
               </div>
               <FilterSelect label="Status" value={status} onChange={reset(setStatus)} options={["Upcoming", "Overdue", "Completed", "Cancelled"]} />
@@ -201,18 +201,18 @@ export default function HearingsView() {
             </form>
 
             <div className="overflow-x-auto">
-              <table className="w-full min-w-250 text-left text-sm">
+              <table className="w-full min-w-0 text-left text-sm">
                 <thead>
                   <tr className="bg-slate-50 text-slate-700">
-                    <th className="w-12 px-4 py-3 font-medium">#</th>
-                    <th className="px-3 py-3"><button onClick={() => setDir(dir === "asc" ? "desc" : "asc")} className="flex items-center gap-1.5 font-medium">Date &amp; Time <ArrowUpDown size={13} className="text-slate-500" /></button></th>
-                    <th className="px-3 py-3 font-medium">Case Title <span className="block text-xs font-normal text-slate-500">Case No.</span></th>
-                    <th className="px-3 py-3 font-medium">Client</th>
-                    <th className="px-3 py-3 font-medium">Type</th>
-                    <th className="px-3 py-3 font-medium">Court</th>
-                    <th className="px-3 py-3 font-medium">Purpose</th>
-                    <th className="px-3 py-3 font-medium">Status</th>
-                    <th className="px-3 py-3 text-center font-medium">Actions</th>
+                    <th className="w-12 px-3 py-3 font-medium">#</th>
+                    <th className="px-2 py-3"><button onClick={() => setDir(dir === "asc" ? "desc" : "asc")} className="flex items-center gap-1.5 font-medium">Date &amp; Time <ArrowUpDown size={13} className="text-slate-500" /></button></th>
+                    <th className="px-2 py-3 font-medium">Case Title <span className="block text-xs font-normal text-slate-500">Case No.</span></th>
+                    <th className="px-2 py-3 font-medium">Client</th>
+                    <th className="px-2 py-3 font-medium">Type</th>
+                    <th className="px-2 py-3 font-medium">Court</th>
+                    <th className="px-2 py-3 font-medium">Purpose</th>
+                    <th className="px-2 py-3 font-medium">Status</th>
+                    <th className="px-2 py-3 text-center font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-line">
@@ -222,26 +222,26 @@ export default function HearingsView() {
                     const live = h.status === "Scheduled";
                     return (
                       <tr key={h.id} className={h.days === 0 && live ? "bg-red-50/60" : "hover:bg-slate-50/60"}>
-                        <td className="px-4 py-3">{start + i + 1}</td>
-                        <td className="px-3 py-3">
+                        <td className="px-3 py-3">{start + i + 1}</td>
+                        <td className="px-2 py-3 md:whitespace-nowrap">
                           <div className="flex items-center gap-3">
                             <div className={`text-xs leading-tight ${live ? (h.days <= 0 ? "text-red-600" : "text-emerald-700") : "text-slate-500"}`}>
                               <p className="text-sm font-medium">{formatDate(h.date)}</p>
                               <p className="opacity-80">{h.time}</p>
                             </div>
-                            {live && <span className={`rounded-md px-2.5 py-1 text-xs ${rel.tone}`}>{rel.text}</span>}
+                            {live && <span className={`rounded-md px-2.5 py-1 text-xs whitespace-nowrap ${rel.tone}`}>{rel.text}</span>}
                           </div>
                         </td>
-                        <td className="px-3 py-3">
+                        <td className="px-2 py-3 md:whitespace-nowrap">
                           {h.c ? <Link href={`/cases/${h.c.id}`} className="font-semibold hover:text-brand">{h.title}</Link> : <span className="font-semibold">{h.title}</span>}
                           <p className="text-xs text-slate-500">{h.caseNo}</p>
                         </td>
-                        <td className="px-3 py-3 text-slate-500">{h.client}</td>
-                        <td className="px-3 py-3">{h.c && <Badge className={caseTypeStyles[h.type]}>{h.type}</Badge>}</td>
-                        <td className="px-3 py-3 text-slate-600">{h.court}</td>
-                        <td className="px-3 py-3 text-slate-600">{h.purpose}</td>
-                        <td className="px-3 py-3"><Badge className={statusTone[h.state]}>{h.state}</Badge></td>
-                        <td className="px-3 py-3">
+                        <td className="px-2 py-3 text-slate-500 md:whitespace-nowrap">{h.client}</td>
+                        <td className="px-2 py-3">{h.c && <Badge className={caseTypeStyles[h.type]}>{h.type}</Badge>}</td>
+                        <td className="px-2 py-3 text-slate-600 md:whitespace-nowrap">{h.court}</td>
+                        <td className="px-2 py-3 text-slate-600 md:whitespace-nowrap">{h.purpose}</td>
+                        <td className="px-2 py-3"><Badge className={statusTone[h.state]}>{h.state}</Badge></td>
+                        <td className="px-2 py-3">
                           <div className="flex items-center justify-center gap-1.5">
                             <button onClick={() => act.viewHearing(h)} aria-label="View hearing" className="rounded-md bg-slate-100 p-2 text-slate-700 hover:bg-slate-200"><Eye size={16} /></button>
                             <button onClick={() => act.editHearing(h)} aria-label="Edit hearing" className="rounded-md bg-slate-100 p-2 text-slate-700 hover:bg-slate-200"><Pencil size={16} /></button>

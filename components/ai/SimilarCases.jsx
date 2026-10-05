@@ -45,7 +45,7 @@ export default function SimilarCases({ items }) {
   const save = (j) => { s.toggleSaved(j.id); toast(s.saved.includes(j.id) ? "Removed from saved" : "Judgment saved"); };
 
   return (
-    <section className="rounded-xl border border-line bg-white p-5 shadow-sm">
+    <section className="rounded-xl border border-line bg-white p-4 shadow-sm sm:p-5">
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-50 text-orange-500"><Search size={26} strokeWidth={1.75} /></div>
         <div className="min-w-0 flex-1 basis-40">

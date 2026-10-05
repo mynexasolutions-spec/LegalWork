@@ -7,8 +7,7 @@ import { Search, MessageSquare, FileText, Scale, BookOpen, Sparkles, ArrowRight,
 import CaseSelector from "./CaseSelector";
 import SimilarCases from "./SimilarCases";
 import AnalysisOverlay from "./AnalysisOverlay";
-import { LegalQuestionsResult, SummaryResult, StrengthResult, LawsResult } from "./ResultViews";
-import { SummaryCard, QuestionsCard, LawsCard, ProsConsCard } from "./RightPanels";
+import OcrPanel from "./OcrPanel";
 import { useStore } from "@/lib/store";
 import { useToast } from "@/components/ui/Toast";
 import { analysisFor, reportLines } from "@/lib/aiData";
@@ -24,6 +23,7 @@ const TYPES = [
   { id: "laws", title: "Applicable Laws", note: "Relevant acts & sections", icon: BookOpen, tint: "bg-purple-50 text-purple-600" },
 ];
 
+const SECTION = { legal: "questions", summary: "summary", strength: "position", laws: "laws", similar: "judgments" };
 const stamp = () => new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true });
 
 export default function AiView() {
@@ -82,9 +82,9 @@ export default function AiView() {
   const reportHref = `/ai-analysis/report/${c.id}`;
 
   return (
-    <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[1fr_390px]">
+    <div className="flex min-w-0 flex-col gap-5">
       <div className="flex min-w-0 flex-col gap-5">
-        <section className="rounded-xl border border-line bg-white p-5 shadow-sm">
+        <section className="rounded-xl border border-line bg-white p-4 shadow-sm sm:p-5">
           <CaseSelector caseNo={c.caseNo} onCase={setCaseNo} files={files} setFiles={setFiles} />
 
           <div className="mt-6 flex flex-wrap items-end justify-between gap-3">
@@ -118,29 +118,29 @@ export default function AiView() {
           </div>
         </section>
 
-        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-line bg-white px-5 py-3 text-sm shadow-sm">
+        <OcrPanel key={c.caseNo} caseData={c} />
+
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm shadow-sm sm:px-5">
           <Info size={16} className="text-slate-400" />
-          <p className="flex-1 text-slate-600">
+          <p className="min-w-0 flex-1 basis-full text-slate-600 sm:basis-0">
             {at ? <>Generated at <b>{at}</b> for </> : "Showing sample results for "}<b>{c.title}</b> ({picked.length} file{picked.length === 1 ? "" : "s"}). Demo output only.</p>
-          <Link href={reportHref} className="flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white hover:bg-brand-dark"><FileText size={14} /> Open full report</Link>
-          <button onClick={download} className="flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-xs font-medium hover:bg-slate-50"><Download size={14} /> Download PDF</button>
+          <Link href={reportHref} className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white hover:bg-brand-dark sm:flex-none"><FileText size={14} /> Open full report</Link>
+          <button onClick={download} className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-line px-4 py-2 text-xs font-medium hover:bg-slate-50 sm:flex-none"><Download size={14} /> Download PDF</button>
         </div>
 
         <div key={rev} className="anim-page">
-          {shown === "similar" && <SimilarCases key={c.caseNo} items={analysis.similar} />}
-          {shown === "legal" && <LegalQuestionsResult questions={analysis.questions} />}
-          {shown === "summary" && <SummaryResult analysis={analysis} hearings={hearings} caseTitle={c.title} />}
-          {shown === "strength" && <StrengthResult analysis={analysis} />}
-          {shown === "laws" && <LawsResult laws={analysis.laws} />}
+          {shown === "similar" ? (
+            <SimilarCases key={c.caseNo} items={analysis.similar} />
+          ) : (
+            <section className="flex flex-col items-center gap-3 rounded-xl border border-line bg-white px-6 py-14 text-center shadow-sm">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-50 text-brand"><FileText size={24} /></span>
+              <h2 className="text-lg font-bold">{TYPES.find((x) => x.id === shown)?.title} is ready</h2>
+              <p className="max-w-md text-sm text-slate-500">The summary, key questions, applicable laws and strengths &amp; weaknesses open on their own page.</p>
+              <Link href={`${reportHref}#${SECTION[shown]}`} className="mt-1 rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark">Open full report</Link>
+            </section>
+          )}
         </div>
       </div>
-
-      <aside key={`${c.caseNo}-${rev}`} className="stagger flex flex-col gap-5">
-        <SummaryCard summary={analysis.summary} onRegenerate={() => run(shown)} busy={!!running} reportHref={reportHref} />
-        <QuestionsCard questions={analysis.questions} />
-        <LawsCard laws={analysis.laws} reportHref={reportHref} />
-        <ProsConsCard strengths={analysis.strengths} weaknesses={analysis.weaknesses} reportHref={reportHref} />
-      </aside>
 
       {running && (
         <AnalysisOverlay

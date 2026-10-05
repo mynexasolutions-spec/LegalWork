@@ -52,8 +52,8 @@ export default function ReferenceView() {
   return (
     <div className="mx-auto flex max-w-350 flex-col gap-5">
       <div className="flex items-start gap-4">
-        <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-sky-600 text-white"><BookOpen size={26} /></div>
-        <div>
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl sm:h-13 sm:w-13 bg-sky-600 text-white"><BookOpen size={26} /></div>
+        <div className="min-w-0">
           <h1 className="text-3xl font-bold leading-tight">Case Reference</h1>
           <p className="text-slate-600">Search judgments and statutes, save the ones you rely on, and attach them to a case.</p>
         </div>

@@ -19,7 +19,7 @@ function useOutside(ref, onOutside, active) {
   }, [ref, onOutside, active]);
 }
 
-function SearchBox() {
+function SearchBox({ autoFocus = false, onDone }) {
   const s = useStore();
   const router = useRouter();
   const [q, setQ] = useState("");
@@ -54,6 +54,7 @@ function SearchBox() {
 
   const go = (r) => {
     router.push(r.href);
+    onDone?.();
     setOpen(false);
     setQ("");
     input.current?.blur();
@@ -64,6 +65,7 @@ function SearchBox() {
       <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
       <input
         ref={input}
+        autoFocus={autoFocus}
         value={q}
         onChange={(e) => { setQ(e.target.value); setOpen(true); }}
         onFocus={() => setOpen(true)}
@@ -174,7 +176,7 @@ function UserMenu() {
           <span className="block text-sm font-semibold">Harsh Kumar</span>
           <span className="block text-xs text-slate-500">Admin</span>
         </span>
-        <ChevronDown size={16} className={`text-slate-600 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown size={16} className={`hidden text-slate-600 transition-transform sm:block ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
         <div className="anim-drop absolute right-0 top-full z-30 mt-2 w-56 rounded-xl border border-line bg-white p-1.5 shadow-xl">
@@ -191,17 +193,26 @@ function UserMenu() {
 
 export default function Topbar() {
   const { setNavOpen } = useUI();
+  const [searchOpen, setSearchOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-20 flex h-17 items-center justify-between gap-3 border-b border-line bg-white/80 px-4 backdrop-blur sm:px-6 lg:px-8">
-      <div className="flex min-w-0 flex-1 items-center gap-3">
+    <header className="sticky top-0 z-20 flex h-17 items-center justify-between gap-2 border-b border-line bg-white/90 px-3 backdrop-blur sm:gap-3 sm:px-6 lg:px-8">
+      <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
         <button onClick={() => setNavOpen(true)} aria-label="Open menu" className="rounded-lg p-2 text-slate-700 hover:bg-slate-100 lg:hidden"><Menu size={22} /></button>
-        <SearchBox />
+        <div className="hidden min-w-0 flex-1 sm:block"><SearchBox /></div>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-1 sm:gap-4">
+        <button onClick={() => setSearchOpen(true)} aria-label="Search" className="rounded-lg p-2 text-slate-700 hover:bg-slate-100 sm:hidden"><Search size={21} /></button>
         <Notifications />
         <div className="hidden h-8 w-px bg-line sm:block" />
         <UserMenu />
       </div>
+
+      {searchOpen && (
+        <div className="anim-fade absolute inset-0 z-10 flex items-center gap-2 bg-white px-3 sm:hidden">
+          <div className="min-w-0 flex-1"><SearchBox autoFocus onDone={() => setSearchOpen(false)} /></div>
+          <button onClick={() => setSearchOpen(false)} className="shrink-0 rounded-lg px-2 py-2 text-sm font-medium text-slate-600">Cancel</button>
+        </div>
+      )}
     </header>
   );
 }

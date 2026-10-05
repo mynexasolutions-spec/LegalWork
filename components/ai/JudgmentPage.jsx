@@ -57,7 +57,7 @@ export default function JudgmentPage({ id }) {
             <p className="mt-1 text-sm text-slate-600">{j.cite} <span className="mx-1 text-slate-300">|</span> {j.court}</p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex w-full flex-wrap gap-2 sm:w-auto">
           <button onClick={() => history.back()} className={outline}><ArrowLeft size={16} /> Back</button>
           <button onClick={copy} className={outline}><Copy size={16} /> Copy citation</button>
           <button onClick={() => act.attachReference({ title: j.title, text: `${j.title}, ${j.cite}` })} className={outline}><FolderPlus size={16} /> Attach to case</button>
@@ -78,7 +78,7 @@ export default function JudgmentPage({ id }) {
 
       <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[1.6fr_1fr]">
         <div className="flex flex-col gap-5">
-          <section className="rounded-xl border border-line bg-white p-6 shadow-sm">
+          <section className="rounded-xl border border-line bg-white p-4 shadow-sm sm:p-6">
             <div className="mb-4 flex flex-wrap items-center gap-4">
               <h2 className="text-lg font-bold">Key holding</h2>
               <span className={`rounded-md px-3 py-1 text-xs font-medium ${relevanceBadge[j.relevance]}`}>{j.relevance}</span>
@@ -87,7 +87,7 @@ export default function JudgmentPage({ id }) {
             <blockquote className="rounded-xl border-l-4 border-brand bg-orange-50/50 p-5 text-base leading-relaxed text-slate-700">{j.excerpt}</blockquote>
           </section>
 
-          <section className="rounded-xl border border-line bg-white p-6 shadow-sm">
+          <section className="rounded-xl border border-line bg-white p-4 shadow-sm sm:p-6">
             <h2 className="mb-3 text-lg font-bold">Why it matches your case</h2>
             <ul className="space-y-3 text-sm text-slate-600">
               {[`Same subject matter (${j.category.toLowerCase()}) decided by the ${j.court}.`, "The reasoning addresses the same statutory provisions and the same kind of evidence.", "Useful as supporting authority; confirm the full text and subsequent history before citing in court."].map((t) => (
@@ -97,7 +97,7 @@ export default function JudgmentPage({ id }) {
             <p className="mt-5 rounded-lg bg-slate-50 px-4 py-3 text-xs text-slate-500">Demo content: judgment details on this page are illustrative samples, not real law reports.</p>
           </section>
 
-          <section className="rounded-xl border border-line bg-white p-6 shadow-sm">
+          <section className="rounded-xl border border-line bg-white p-4 shadow-sm sm:p-6">
             <h2 className="mb-3 text-lg font-bold">Statutes relied on</h2>
             <ul className="divide-y divide-line">
               {laws.map((l) => (

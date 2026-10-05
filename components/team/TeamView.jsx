@@ -18,13 +18,13 @@ import { roleStyles } from "@/lib/team";
 import { downloadBlob, toCsv } from "@/lib/format";
 
 const statusStyle = { Active: "bg-emerald-50 text-emerald-600", Inactive: "bg-red-50 text-red-600" };
-const outline = "flex items-center gap-2 rounded-lg border border-line bg-white px-5 py-3 text-sm font-medium hover:bg-slate-50";
+const outline = "flex items-center gap-2 rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm font-medium hover:bg-slate-50 sm:px-5 sm:py-3";
 
-function Stat({ label, value, icon: Icon, tint, onClick }) {
+function Stat({ label, value, icon: Icon, tint, onClick, wide }) {
   return (
-    <button onClick={onClick} className="lift flex w-full items-center gap-4 rounded-xl border border-line bg-white p-5 text-left shadow-sm">
-      <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-xl ${tint}`}><Icon size={30} strokeWidth={1.5} /></div>
-      <div><p className="text-sm text-slate-600">{label}</p><p className="text-3xl font-bold leading-tight"><CountUp value={value} /></p></div>
+    <button onClick={onClick} className={`lift flex h-full w-full items-center gap-3 rounded-xl border border-line bg-white p-3 text-left shadow-sm sm:gap-4 sm:p-5 ${wide ? "col-span-2 sm:col-span-1" : ""}`}>
+      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl sm:h-16 sm:w-16 ${tint}`}><Icon size={26} strokeWidth={1.5} /></div>
+      <div className="min-w-0"><p className="text-xs text-slate-600 sm:text-sm">{label}</p><p className="text-2xl font-bold leading-tight sm:text-3xl"><CountUp value={value} /></p></div>
     </button>
   );
 }
@@ -93,8 +93,8 @@ export default function TeamView() {
     <div className="mx-auto flex max-w-350 flex-col gap-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-4">
-          <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-purple-600 text-white"><Users size={26} /></div>
-          <div>
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl sm:h-13 sm:w-13 bg-purple-600 text-white"><Users size={26} /></div>
+          <div className="min-w-0">
             <h1 className="text-3xl font-bold leading-tight">Team &amp; Roles</h1>
             <p className="text-slate-600">Manage your team members, roles, permissions and access control.</p>
           </div>
@@ -102,7 +102,7 @@ export default function TeamView() {
         <div className="flex flex-wrap gap-3">
           <button onClick={() => act.roles()} className={outline}><Settings size={17} /> Role Management</button>
           <button onClick={() => act.invite()} className={outline}><Send size={17} /> Invite Member</button>
-          <button onClick={() => act.addMember()} className="flex items-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-dark"><Plus size={18} /> Add Member</button>
+          <button onClick={() => act.addMember()} className="flex items-center gap-2 rounded-lg bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-dark sm:px-5 sm:py-3"><Plus size={18} /> Add Member</button>
         </div>
       </div>
 
@@ -111,7 +111,7 @@ export default function TeamView() {
         <Stat label="Active Members" value={members.filter((m) => m.status === "Active").length} icon={UserCheck} tint="bg-emerald-100 text-emerald-600" onClick={() => { setStatus("Active"); setPage(1); }} />
         <Stat label="Roles" value={Object.keys(s.roles).length} icon={Crown} tint="bg-orange-100 text-orange-500" onClick={() => act.roles()} />
         <Stat label="Admins" value={members.filter((m) => m.role === "Administrator").length} icon={ShieldCheck} tint="bg-purple-100 text-purple-600" onClick={() => { setRole("Administrator"); setPage(1); }} />
-        <Stat label="Pending Invites" value={s.invites.length} icon={UserPlus} tint="bg-blue-100 text-blue-600" onClick={() => act.roles()} />
+        <Stat label="Pending Invites" value={s.invites.length} icon={UserPlus} tint="bg-blue-100 text-blue-600" wide onClick={() => act.roles()} />
       </div>
 
       <section className="min-w-0 rounded-xl border border-line bg-white shadow-sm">

@@ -7,7 +7,7 @@ export default function AiAnalysisPage() {
   return (
     <div className="mx-auto flex max-w-350 flex-col gap-5">
       <div className="flex items-start gap-4">
-        <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-purple-600 text-white">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl sm:h-13 sm:w-13 bg-purple-600 text-white">
           <Sparkles size={26} />
         </div>
         <div>

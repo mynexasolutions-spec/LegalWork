@@ -96,15 +96,15 @@ export default function AnalysisOverlay({ caseData, files, matches, typeLabel, o
   ];
 
   return createPortal(
-    <div className="anim-fade fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/45 p-4 backdrop-blur-sm">
-      <div role="dialog" aria-modal="true" aria-label="AI analysis in progress" className="anim-pop relative w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+    <div className="anim-fade fixed inset-0 z-[70] flex items-start justify-center overflow-y-auto bg-slate-900/45 p-3 backdrop-blur-sm sm:items-center sm:p-4">
+      <div role="dialog" aria-modal="true" aria-label="AI analysis in progress" className="anim-pop relative my-auto w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl">
         <div className="h-1 w-full bg-slate-100">
           <div className="h-full bg-linear-to-r from-brand via-orange-400 to-pink-400 transition-[width] duration-150" style={{ width: `${pct}%` }} />
         </div>
 
         {finished && !stay && <div className="h-0.5 w-full bg-emerald-100"><div className="h-full bg-emerald-500 transition-[width] duration-700 ease-linear" style={{ width: `${((2 - count) / 2) * 100}%` }} /></div>}
 
-        <header className="flex items-start justify-between gap-4 px-6 pb-4 pt-5">
+        <header className="flex items-start justify-between gap-4 px-4 pb-3 pt-4 sm:px-6 sm:pb-4 sm:pt-5">
           <div className="min-w-0">
             <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest text-brand"><Sparkles size={12} /> AI analysis &middot; {typeLabel}</p>
             <h2 className="mt-1 text-xl font-bold">{finished ? "Analysis complete" : "Analysing case"}</h2>
@@ -113,14 +113,14 @@ export default function AnalysisOverlay({ caseData, files, matches, typeLabel, o
           <button onClick={finished ? () => { setStay(true); onDone(); } : onCancel} aria-label={finished ? "Close" : "Cancel analysis"} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-ink"><X size={18} /></button>
         </header>
 
-        <div className="grid gap-6 px-6 pb-6 md:grid-cols-[1.05fr_1fr]">
+        <div className="grid gap-5 px-4 pb-5 sm:px-6 sm:pb-6 md:grid-cols-[1.05fr_1fr] md:gap-6">
           {/* document scan */}
           <div>
             <div className="mb-2 flex items-center gap-2 text-xs text-slate-500">
               <FileText size={14} /> <span className="truncate font-medium text-slate-700">{names[fileIdx] ?? "Case file"}</span>
               {names.length > 1 && <span className="ml-auto rounded bg-slate-100 px-1.5 py-0.5">{fileIdx + 1} / {names.length}</span>}
             </div>
-            <div className="relative h-56 overflow-hidden rounded-xl border border-line bg-slate-50 p-5">
+            <div className="relative h-44 overflow-hidden rounded-xl border border-line bg-slate-50 p-4 sm:h-56 sm:p-5">
               <div className="mx-auto flex h-full max-w-xs flex-col justify-between rounded bg-white p-4 shadow-sm">
                 <div className="mb-1 h-2.5 w-1/2 rounded bg-slate-300" />
                 {LINES.map((w, i) => (
@@ -169,12 +169,12 @@ export default function AnalysisOverlay({ caseData, files, matches, typeLabel, o
           </div>
         </div>
 
-        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-slate-50/70 px-6 py-4">
+        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-slate-50/70 px-4 py-3 sm:px-6 sm:py-4">
           <p className="text-sm text-slate-500">
             {finished ? <>Completed in <b className="text-ink">{(TOTAL / 1000).toFixed(1)}s</b> &middot; {matches} similar judgments found{!stay && <span className="ml-1 text-brand">&middot; opening your report...</span>}</> : <>{pct}% &middot; about {remaining}s remaining</>}
           </p>
           {finished ? (
-            <div className="flex gap-2">
+            <div className="flex w-full gap-2 sm:w-auto [&>button]:flex-1 sm:[&>button]:flex-none">
               <button onClick={() => { setStay(true); onDone(); }} className="rounded-lg border border-line bg-white px-5 py-2.5 text-sm font-medium hover:bg-slate-50">Stay here</button>
               <button autoFocus onClick={() => { setStay(true); onReport(); }} className="anim-pop flex items-center gap-2 rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark">Open full report <ArrowRight size={16} /></button>
             </div>
