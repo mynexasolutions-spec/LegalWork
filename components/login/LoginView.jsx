@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, Zap, Copy, Check, CalendarClock, Sparkles, ShieldCheck, FolderOpen } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Loader2, Zap, Copy, Check, CalendarClock, Sparkles, ShieldCheck, FolderOpen } from "lucide-react";
 import { GiScales } from "react-icons/gi";
 import { useAuth, DEMO } from "@/lib/auth";
 import { useToast } from "@/components/ui/Toast";
@@ -201,7 +201,7 @@ export default function LoginView() {
             {error && <p role="alert" className="anim-fade rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600">{error}</p>}
 
             <button type="submit" disabled={busy || typing} className="group flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-brand text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-70">
-              {busy ? <><Loader2 size={18} className="animate-spin" /> Signing in...</> : <>Sign in <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" /></>}
+              {busy ? <><Loader2 size={18} className="animate-spin" /> Signing in...</> : "Sign in"}
             </button>
           </form>
 

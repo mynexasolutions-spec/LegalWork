@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 export default function SectionCard({ title, href = "#", children, className = "" }) {
   return (
@@ -12,7 +11,7 @@ export default function SectionCard({ title, href = "#", children, className = "
           href={href}
           className="flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-brand"
         >
-          View All <ArrowRight size={15} />
+          View All
         </Link>
       </div>
       {children}

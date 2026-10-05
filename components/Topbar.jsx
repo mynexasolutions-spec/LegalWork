@@ -129,14 +129,14 @@ function Notifications() {
         )}
       </button>
       {open && (
-        <div className="anim-drop absolute right-0 top-full z-30 mt-2 w-85 max-w-[calc(100vw-2rem)] rounded-xl border border-line bg-white shadow-xl">
+        <div className="anim-drop fixed inset-x-3 top-full z-30 mt-1 rounded-xl border border-line bg-white shadow-xl sm:absolute sm:inset-x-auto sm:right-0 sm:mt-2 sm:w-85">
           <div className="flex items-center justify-between border-b border-line px-4 py-3">
             <p className="font-bold">Notifications</p>
             {unread.length > 0 && (
               <button onClick={() => s.markRead(items.map((i) => i.id))} className="flex items-center gap-1.5 text-xs font-medium text-indigo-600"><CheckCheck size={14} /> Mark all read</button>
             )}
           </div>
-          <ul className="max-h-96 overflow-y-auto">
+          <ul className="max-h-[60vh] overflow-y-auto sm:max-h-96">
             {items.length === 0 && <li className="px-4 py-8 text-center text-sm text-slate-500">You&apos;re all caught up.</li>}
             {items.map((n) => {
               const Icon = n.icon;

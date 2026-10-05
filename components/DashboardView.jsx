@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, Folder, CheckCircle2, CalendarDays, ArrowRight, CalendarClock, FileText, User, Check, Eye, Pencil, Bell, XCircle, RotateCcw, Trash2 } from "lucide-react";
+import { Plus, Folder, CheckCircle2, CalendarDays, CalendarClock, FileText, User, Check, Eye, Pencil, Bell, XCircle, RotateCcw, Trash2 } from "lucide-react";
 import { FaBalanceScale } from "react-icons/fa";
 import StatCard from "@/components/StatCard";
 import DashboardInsights from "@/components/DashboardInsights";
@@ -24,7 +24,7 @@ function Card({ title, href, className = "", children }) {
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold">{title}</h2>
         <Link href={href} className="group flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-brand">
-          View All <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+          View All
         </Link>
       </div>
       {children}
