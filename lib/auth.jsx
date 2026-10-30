@@ -22,7 +22,10 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(KEY) ?? sessionStorage.getItem(KEY);
-      if (raw) setUser(JSON.parse(raw));
+      if (raw) {
+        setUser(JSON.parse(raw));
+        setCookie(true); // keep the proxy cookie in sync with the saved session
+      }
     } catch {
       // unreadable session: treat as logged out
     }

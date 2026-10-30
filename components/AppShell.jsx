@@ -32,8 +32,8 @@ export default function AppShell({ children }) {
     if (user && onLogin) router.replace("/");
   }, [ready, user, onLogin, router]);
 
+  if (onLogin) return ready && user ? <Splash /> : children;
   if (!ready) return <Splash />;
-  if (onLogin) return user ? <Splash /> : children;
   if (!user) return <Splash />;
 
   return (
